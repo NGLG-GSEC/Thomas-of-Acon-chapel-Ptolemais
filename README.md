@@ -3,6 +3,8 @@
 Πρόγραμμα προϋπολογισμού Παρεκκλησίου (ΕΛ / FR / EN), βασισμένο στο `Chap_Athens_Budget_2026_Typ.xlsx`.
 Budget de Chapelle trilingue, basé sur le fichier Excel. · Trilingual chapel budget app built from the Excel workbook.
 
+**🌐 Live εφαρμογή / Application en ligne / Live app:** https://nglg-gsec.github.io/Thomas-of-Acon-chapel-Ptolemais/
+
 **Αρχείο / Fichier / File:** `Chap_Athens_Budget_021026_v1.html` (το `index.html` ανακατευθύνει εκεί)
 
 ## Ενότητες / Sections
