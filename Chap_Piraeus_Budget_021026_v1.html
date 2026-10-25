@@ -1,0 +1,767 @@
+<title>Chapel Lux ex Oriente in Piraeus, Greece</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,500;7..72,650&family=Noto+Sans:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: a ledger book — slim header with language/mode controls, tab strip, then one working sheet per tab */
+:root{
+  --bg:#f2f4f8; --surface:#ffffff; --sunk:#e8ecf3; --ink:#18223a; --muted:#5d6880; --line:#d5dbe6;
+  --navy:#1f3866; --navy-ink:#ffffff; --bronze:#9a6a2c; --bronze-soft:#f3e7d6;
+  --good:#1f7a4d; --good-soft:#dff1e7; --bad:#b0362c; --bad-soft:#f8e1de; --warn:#9a6200; --warn-soft:#fbefd6;
+  --display:"Literata", "Noto Serif", Georgia, serif;
+  --body:"Noto Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#0e1524; --surface:#16203a; --sunk:#1c2846; --ink:#e6ebf4; --muted:#9aa6bf; --line:#2b3a5c;
+  --navy:#3b5d9c; --navy-ink:#ffffff; --bronze:#d9a362; --bronze-soft:#3a2d1c;
+  --good:#5cc995; --good-soft:#173a2b; --bad:#f08a7e; --bad-soft:#47201c; --warn:#f0bd5c; --warn-soft:#3d2f12;
+  color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#0e1524; --surface:#16203a; --sunk:#1c2846; --ink:#e6ebf4; --muted:#9aa6bf; --line:#2b3a5c;
+  --navy:#3b5d9c; --navy-ink:#ffffff; --bronze:#d9a362; --bronze-soft:#3a2d1c;
+  --good:#5cc995; --good-soft:#173a2b; --bad:#f08a7e; --bad-soft:#47201c; --warn:#f0bd5c; --warn-soft:#3d2f12;
+  color-scheme:dark }
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.5;margin:0}
+.wrap{max-width:1120px;margin:0 auto;padding-inline:16px;padding-block:18px 60px}
+header.top{display:flex;flex-wrap:wrap;align-items:center;gap:14px 20px;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.brand svg{flex:none;width:40px;height:40px}
+.brand h1{font-family:var(--display);font-weight:650;font-size:1.45rem;margin:0;line-height:1.15;text-wrap:balance}
+.brand .sub{color:var(--muted);font-size:.85rem}
+.controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--surface)}
+.seg button{border:0;background:transparent;color:var(--ink);padding:6px 12px;font:600 .82rem var(--body);letter-spacing:.04em;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--navy);color:var(--navy-ink)}
+.toggle{display:inline-flex;align-items:center;gap:8px;font-size:.85rem;color:var(--muted);cursor:pointer;user-select:none}
+.toggle input{width:18px;height:18px;accent-color:var(--bronze)}
+nav.tabs{display:flex;gap:4px;margin-top:18px;border-bottom:2px solid var(--line);overflow-x:auto;scrollbar-width:thin}
+nav.tabs button{flex:none;border:0;background:transparent;color:var(--muted);padding:10px 14px;font:600 .92rem var(--body);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;white-space:nowrap}
+nav.tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--bronze)}
+nav.tabs .num{display:inline-block;color:var(--bronze);font-family:var(--display);margin-right:6px}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--bronze);outline-offset:2px}
+main{margin-top:22px;display:grid;gap:22px}
+h2{font-family:var(--display);font-weight:650;font-size:1.3rem;margin:0;text-wrap:balance}
+h3{font-family:var(--display);font-weight:500;font-size:1.08rem;margin:0 0 10px}
+.lede{color:var(--muted);margin:4px 0 0;max-width:68ch}
+.sheet{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px}
+.sheet-head{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:flex-end;justify-content:space-between;margin-bottom:14px}
+.eyebrow{text-transform:uppercase;letter-spacing:.09em;font-size:.72rem;font-weight:700;color:var(--bronze)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:22px}
+.grid2>*{min-width:0}
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums}
+th{font-size:.72rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);font-weight:700;text-align:left;padding:8px 8px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:6px 8px;border-bottom:1px solid var(--line);vertical-align:middle}
+th.r,td.r{text-align:right}
+tr.sum td{border-top:2px solid var(--ink);border-bottom:0;font-weight:700;padding-top:10px}
+tr.sub td{background:var(--sunk);font-weight:600}
+td.idx{color:var(--bronze);font-family:var(--display);width:2.2em}
+td.lbl{min-width:180px}
+.note{color:var(--muted);font-size:.82rem}
+input[type=number],input[type=text],select,textarea{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:5px 7px;width:100%}
+input[type=number]{text-align:right;max-width:110px;font-variant-numeric:tabular-nums}
+input.w-s{max-width:76px}
+input.name{min-width:220px}
+input.txt{min-width:120px}
+textarea{min-height:120px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.8rem}
+.out{font-weight:600;white-space:nowrap}
+.cur{font-size:.75rem;color:var(--muted);margin-left:4px}
+.calc{color:var(--navy)}
+:root[data-theme="dark"] .calc{color:#9fbcf0}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .calc{color:#9fbcf0}}
+.flag{display:inline-block;margin-left:6px;font-size:.7rem;font-weight:700;padding:1px 6px;border-radius:999px;background:var(--warn-soft);color:var(--warn);cursor:help;vertical-align:middle}
+.chip{display:inline-block;font-size:.75rem;font-weight:600;padding:2px 8px;border-radius:999px;background:var(--sunk);color:var(--muted)}
+.result{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:baseline;justify-content:space-between;margin-top:14px;padding:12px 14px;border-radius:8px}
+.result.pos{background:var(--good-soft);color:var(--good)}
+.result.neg{background:var(--bad-soft);color:var(--bad)}
+.result .big{font-family:var(--display);font-size:1.5rem;font-weight:650}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:14px}
+.tile{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:grid;gap:4px;align-content:start}
+.tile .k{font-size:.78rem;color:var(--muted);font-weight:600}
+.tile .v{font-family:var(--display);font-size:1.45rem;font-weight:650;font-variant-numeric:tabular-nums}
+.tile .s{font-size:.8rem;color:var(--muted)}
+.tile.go{cursor:pointer}
+.tile.go:hover{border-color:var(--bronze)}
+.form{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr));gap:12px 16px}
+.form label{display:grid;gap:4px;font-size:.8rem;color:var(--muted);font-weight:600}
+.form input[type=number]{max-width:none;text-align:left}
+.btns{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.btn{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:7px;padding:7px 12px;font:600 .85rem var(--body);cursor:pointer}
+.btn.primary{background:var(--navy);border-color:var(--navy);color:var(--navy-ink)}
+.btn.danger{color:var(--bad);border-color:var(--bad)}
+.btn.icon{padding:3px 9px;font-size:1rem;line-height:1;color:var(--muted)}
+.btn:hover{border-color:var(--bronze)}
+.callout{border:1px solid var(--warn);background:var(--warn-soft);color:var(--ink);border-radius:8px;padding:12px 14px}
+.callout ul{margin:6px 0 0;padding-left:18px}
+.callout li{margin:4px 0}
+.callout b{color:var(--warn)}
+.status{font-size:.82rem;color:var(--good);min-height:1.2em}
+dl.tariff{display:grid;grid-template-columns:1fr auto;gap:6px 14px;margin:0;align-items:center}
+dl.tariff dt{font-size:.9rem}
+dl.tariff dd{margin:0;text-align:right}
+dl.tariff .tot{border-top:2px solid var(--ink);padding-top:8px;font-weight:700}
+.muted{color:var(--muted)}
+@media (max-width:560px){ .brand h1{font-size:1.2rem} .sheet{padding:14px} }
+@media (prefers-reduced-motion: reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="brand">
+      <svg viewBox="0 0 48 48" aria-hidden="true">
+        <path d="M24 42 L7 17 Q24 2 41 17 Z" fill="var(--bronze)"/>
+        <g stroke="var(--surface)" stroke-width="1.6" fill="none" stroke-linecap="round">
+          <path d="M24 41 L24 9"/><path d="M24 41 L15 11"/><path d="M24 41 L33 11"/><path d="M24 41 L10 15"/><path d="M24 41 L38 15"/>
+        </g>
+        <path d="M18 42 h12 v3 h-12z" fill="var(--navy)"/>
+      </svg>
+      <div style="min-width:0">
+        <h1 id="appTitle">Chapel Lux ex Oriente in Piraeus, Greece</h1>
+        <div class="sub" id="appSub"></div>
+      </div>
+    </div>
+    <div class="controls">
+      <div class="seg" role="group" aria-label="Language" id="langSeg">
+        <button type="button" data-lang="el">ΕΛ</button>
+        <button type="button" data-lang="fr">FR</button>
+        <button type="button" data-lang="en">EN</button>
+      </div>
+      <label class="toggle"><input type="checkbox" id="excelMode"><span id="excelModeLbl"></span></label>
+    </div>
+  </header>
+  <nav class="tabs" role="tablist" id="tabs"></nav>
+  <main id="main"></main>
+</div>
+
+<script id="engine">
+/* ===================== DEFAULT DATA (exact values from Chap_Athens_Budget_2026_Typ.xlsx) ===================== */
+function defaults(){
+  return {
+    v:1,
+    settings:{lang:"el", chapel:"Lux ex Oriente", province:"France", gbp:1.15, year1:2026, year2:2027, excelMode:true, linkFurniture:false},
+    inv:[
+      {n:"1",  en:"A scrip purse for the Candidate (containing bread)", fr:"Bourse pour le pain", el:"Πήρα (πουγκί) για τον Υποψήφιο (με ψωμί)", qty:null, unit:null, made:null, by:"", note:""},
+      {n:"2",  en:"A water bottle for the Candidate (containing water)", fr:"Bouteille d'eau / gourde", el:"Παγούρι για τον Υποψήφιο (με νερό)", qty:null, unit:null, made:null, by:"", note:""},
+      {n:"3",  en:"A small coffin – 30\" long × 10\" wide × 8\" high", fr:"Petit cercueil, L 75 cm × l 25 cm × h 20 cm", el:"Μικρό φέρετρο, Μ 75 × Π 25 × Υ 20 εκ.", qty:1, unit:0, made:null, by:"", note:"Offert par Dominique Madéj"},
+      {n:"4",  en:"An alms dish", fr:"Assiette à aumônes", el:"Δίσκος ελεημοσύνης", qty:null, unit:null, made:null, by:"", note:""},
+      {n:"5",  en:"Basic regalia for candidates – large shell, small shell, hatband", fr:"Décor de base pour candidat", el:"Βασικά διακριτικά υποψηφίου – μεγάλο & μικρό όστρακο, ταινία καπέλου", qty:null, unit:null, made:null, by:"", note:""},
+      {n:"6",  en:"An altar (centre)", fr:"Un autel", el:"Βωμός (κέντρο)", qty:null, unit:null, made:null, by:"", note:""},
+      {n:"7",  en:"An altar cloth and frontal of the Order (frontal may be obtained later)", fr:"Drap blanc pour autel, avec emblème", el:"Λευκό κάλυμμα βωμού με το έμβλημα του Τάγματος", qty:1, unit:215, made:null, by:"", note:"White Cloth"},
+      {n:"8",  en:"A Calvary cross", fr:"Croix de calvaire (croix sur socle)", el:"Σταυρός Γολγοθά (σε βάση)", qty:null, unit:null, made:null, by:"", note:""},
+      {n:"9",  en:"Two candlesticks", fr:"2 bougeoirs", el:"Δύο κηροπήγια", qty:null, unit:null, made:null, by:"", note:""},
+      {n:"10", en:"A Holy Bible (2 spare copies are useful for multiple candidates)", fr:"3 bibles (pour plusieurs candidats)", el:"3 Αγίες Γραφές (για περισσότερους υποψηφίους)", qty:null, unit:null, made:null, by:"", note:"Une grande et 2 petites"},
+      {n:"11", en:"A plate (for bread) for the Agape or Eucharist", fr:"Patène pour le pain", el:"Δισκάριο για τον άρτο (Αγάπη ή Ευχαριστία)", qty:null, unit:null, made:null, by:"", note:""},
+      {n:"12", en:"A cup (for wine or water) for the Agape or Eucharist", fr:"Calice pour le vin ou l'eau", el:"Ποτήριο για κρασί ή νερό (Αγάπη ή Ευχαριστία)", qty:null, unit:null, made:null, by:"", note:""},
+      {n:"13", en:"A baton for the Worthy Master", fr:"Bâton pour le Digne Maître", el:"Ράβδος του Άξιου Διδασκάλου", qty:1, unit:255, made:null, by:"", note:""},
+      {n:"14", en:"A set of four framed photographs of the Church of the Order in Cyprus (£40 from GSec)", fr:"Jeu de 4 photos fourni par le Gd Secrétaire (40 £)", el:"Σετ 4 φωτογραφιών του Ναού του Τάγματος στην Κύπρο (£40, από τον Μ. Γραμματέα)", qty:1, unit:60, made:null, by:"", note:"Provided at Consecration by Consec. Team"},
+      {n:"",   en:"4 stands for the photographs", fr:"4 chevalets pour les photos", el:"4 καβαλέτα για τις φωτογραφίες", qty:4, unit:12, made:null, by:"F Misslin", note:""},
+      {n:"15", en:"A Chapel banner (optional)", fr:"Bannière de la Chapelle", el:"Λάβαρο του Παρεκκλησίου (προαιρετικό)", qty:null, unit:null, made:null, by:"", note:""},
+      {n:"16", en:"A kneeling stool (centre)", fr:"Agenouilloir", el:"Γονατιστήρι (κέντρο)", qty:null, unit:null, made:null, by:"", note:""},
+      {n:"17", en:"A small side table for the Prior (centre)", fr:"Petite table pour l'Ém. Prieur", el:"Μικρό τραπέζι για τον Πρίορα (κέντρο)", qty:null, unit:null, made:null, by:"", note:""},
+      {n:"18", en:"Master's pedestal (centre)", fr:"Piédestal pour le DM", el:"Βάθρο του Διδασκάλου (κέντρο)", qty:null, unit:null, made:null, by:"", note:""},
+      {n:"19", en:"Minute book", fr:"Livre des comptes rendus", el:"Βιβλίο πρακτικών", qty:null, unit:null, made:null, by:"", note:"Provided by Chapel"},
+      {n:"20", en:"Register (signing-in book)", fr:"Registre des présences", el:"Βιβλίο παρουσιών", qty:null, unit:null, made:null, by:"", note:"Provided by Chapel"},
+      {n:"21", en:"Financial books", fr:"Livres financiers", el:"Οικονομικά βιβλία", qty:null, unit:null, made:null, by:"", note:"Provided by Chapel"},
+      {n:"22", en:"Tie – bronze escallop on blue (£10); ritual books (£5) – candidates", fr:"Cravate de l'Ordre (10 £) et rituels (5 £)", el:"Γραβάτα του Τάγματος (£10) και τελετουργικά (£5) – υποψήφιοι", qty:null, unit:null, made:null, by:"", note:"Provided by Chapel"},
+      {n:"23", en:"Candle snuffer", fr:"2 bougies électriques (et éteignoir)", el:"2 ηλεκτρικά κεριά (και σβηστήρι)", qty:null, unit:null, made:null, by:"", note:""},
+      {n:"24", en:"Laminated hymn cards × 30", fr:"Hymnes sous feuille laminée × 30", el:"Πλαστικοποιημένοι ύμνοι × 30", qty:null, unit:null, made:null, by:"", note:""},
+      {n:"25", en:"Laminated organ music", fr:"Musique d'orgue", el:"Πλαστικοποιημένες παρτιτούρες οργάνου", qty:null, unit:null, made:null, by:"", note:""},
+      {n:"26", en:"", fr:"", el:"", qty:null, unit:null, made:null, by:"", note:""},
+      {n:"27", en:"", fr:"", el:"", qty:null, unit:null, made:null, by:"", note:""}
+    ],
+    cons:{
+      pet:20,
+      fees:[ /* rows 8–12: unit in £ or €, qty linked to petitioners or fixed */
+        {key:"gmc",    unit:8,   cur:"GBP", link:true,  qty:20},
+        {key:"prov",   unit:4,   cur:"EUR", link:true,  qty:20},
+        {key:"chapel", unit:5,   cur:"EUR", link:true,  qty:20},
+        {key:"feeGMC", unit:500, cur:"GBP", link:false, qty:1},
+        {key:"feeGPC", unit:100, cur:"EUR", link:false, qty:2}
+      ],
+      extras:[ /* rows 20–25. excelE: how Excel builds column E (total) */
+        {key:"furn",    unit:600,  cur:"EUR", qty:1, incl:false, excelE:"unit"},
+        {key:"baton",   unit:null, cur:"EUR", qty:1, incl:true,  excelE:"unit"},
+        {key:"jewel",   unit:null, cur:"EUR", qty:1, incl:false, excelE:"unit"},
+        {key:"rituals", unit:5,    cur:"GBP", qty:1, incl:false, excelE:"unit"},
+        {key:"const",   unit:12,   cur:"GBP", qty:1, incl:false, excelE:"unit"},
+        {key:"guests",  unit:50,   cur:"EUR", qty:6, incl:false, excelE:"unitXqty"}
+      ],
+      received:0, reimburseTo:"", reimburse:0
+    },
+    y1:{
+      members:20, joiners:1, receptions:4,
+      gmc:{base:0, extra:0, factor:1}, gmcJoin:0, prov:0, provJoin:0,
+      rent:200, regWM:{qty:1, unit:0}, regIPWM:{qty:1, unit:36}, admin:50, various:30,
+      tariffs:{
+        rec:{gmc:7, prov:4.5, chapel:52.5, diploma:"incl", kit:126, ritual:10, constb:"incl", provBy:"incl", chapBy:"incl", gloves:"notincl", ship:0},
+        aff:{gmc:5, prov:4.5, chapel:20.5, fixed:null},
+        dues:{fm:10, jm:10, founder:0}
+      }
+    },
+    y2:{
+      members:24, joiners:2, receptions:2,
+      gmc:{base:10, extra:2.5, factor:0.93}, gmcJoin:0, prov:8, provJoin:0,
+      rent:200, regWM:{qty:1, unit:0}, regIPWM:{qty:1, unit:36}, admin:50, various:30,
+      tariffs:{
+        rec:{gmc:7, prov:4.5, chapel:52.5, diploma:"incl", kit:126, ritual:10, constb:"incl", provBy:"incl", chapBy:"incl", gloves:"notincl", ship:0},
+        aff:{gmc:5, prov:4.5, chapel:50.5, fixed:60},
+        dues:{fm:40, jm:25, founder:25}
+      }
+    }
+  };
+}
+
+/* Per-year structural differences that exist in the Excel */
+const YEAR_CFG = {
+  y1:{ joinSource:"affChapel", rentIncludesJoiners:false, joinExpenseLines:false },
+  y2:{ joinSource:"founderDues", rentIncludesJoiners:true,  joinExpenseLines:true }
+};
+
+const nz = v => (typeof v === "number" && isFinite(v)) ? v : 0;
+
+/* ===================== CALCULATION ENGINE ===================== */
+function compute(s, excel){
+  const r = {};
+  const gbp = nz(s.settings.gbp);
+  const toEur = (v,cur) => nz(v) * (cur === "GBP" ? gbp : 1);
+
+  /* --- Inventory (sheet "Inventory") --- */
+  let bought = 0, made = 0;
+  s.inv.forEach((it,i) => {
+    const has = it.qty != null || it.unit != null;
+    const b = has ? (it.qty == null ? 1 : it.qty) * nz(it.unit) : null;
+    r["inv."+i+".bought"] = b;
+    bought += nz(b); made += nz(it.made);
+  });
+  r["inv.bought"] = bought; r["inv.made"] = made; r["inv.total"] = bought + made;
+
+  /* --- Consecration budget (sheet "Consecration Budget") --- */
+  const c = s.cons, pet = nz(c.pet);
+  const per = v => pet ? v / pet : 0;
+  let feeT = 0, feeP = 0;
+  c.fees.forEach((f,i) => {
+    const ue = toEur(f.unit, f.cur), q = f.link ? pet : nz(f.qty), t = ue * q, p = per(t);
+    r[`cons.fee.${i}.eur`] = ue; r[`cons.fee.${i}.qty`] = q; r[`cons.fee.${i}.total`] = t; r[`cons.fee.${i}.per`] = p;
+    feeT += t; feeP += p;
+  });
+  r["cons.fees.total"] = feeT; r["cons.fees.per"] = feeP;
+  let exT = 0, exP = 0;
+  c.extras.forEach((x,i) => {
+    let ue = toEur(x.unit, x.cur);
+    if (x.key === "furn" && s.settings.linkFurniture) ue = r["inv.total"];
+    const q = nz(x.qty);
+    let t, p;
+    if (x.incl){ t = 0; p = 0; }
+    else if (excel){ t = x.excelE === "unitXqty" ? ue * q : ue; p = per(t * q); }   /* Excel: G = E × D / petitioners */
+    else { t = ue * q; p = per(t); }
+    r[`cons.x.${i}.eur`] = ue; r[`cons.x.${i}.total`] = t; r[`cons.x.${i}.per`] = p;
+    exT += t; exP += p;
+  });
+  r["cons.total"] = feeT + exT; r["cons.per"] = feeP + exP;
+  r["cons.balance"] = nz(c.received) - (feeT + exT) ;
+
+  /* --- Year budgets (sheets "Budget 1er Année", "Budget 2ème Année") --- */
+  ["y1","y2"].forEach(k => {
+    const y = s[k], cfg = YEAR_CFG[k], t = y.tariffs, P = k + ".";
+    const recT = ["gmc","prov","chapel","diploma","kit","ritual","constb","provBy","chapBy","gloves","ship"].reduce((a,f)=>a+nz(t.rec[f]),0);
+    const affSum = nz(t.aff.gmc) + nz(t.aff.prov) + nz(t.aff.chapel);
+    const affT = (excel && t.aff.fixed != null) ? t.aff.fixed : affSum;
+    r[P+"rec.total"] = recT; r[P+"aff.total"] = affT;
+
+    const m = nz(y.members), j = nz(y.joiners), rc = nz(y.receptions);
+    const duesRate = nz(t.dues.fm);
+    const joinRate = cfg.joinSource === "affChapel" ? (excel ? 0 : nz(t.aff.chapel)) : nz(t.dues.founder);
+    const recRate = nz(t.rec.chapel);
+    r[P+"rate.dues"] = duesRate; r[P+"rate.join"] = joinRate; r[P+"rate.rec"] = recRate;
+    r[P+"rev.dues"] = m * duesRate; r[P+"rev.join"] = j * joinRate; r[P+"rev.rec"] = rc * recRate;
+    const rev = r[P+"rev.dues"] + r[P+"rev.join"] + r[P+"rev.rec"];
+    r[P+"rev.total"] = rev;
+
+    const gmcRate = (nz(y.gmc.base) + nz(y.gmc.extra)) * nz(y.gmc.factor);
+    r[P+"rate.gmc"] = gmcRate;
+    r[P+"exp.gmc"] = m * gmcRate;
+    r[P+"exp.gmcJoin"] = cfg.joinExpenseLines ? j * nz(y.gmcJoin) : 0;
+    r[P+"exp.prov"] = m * nz(y.prov);
+    r[P+"exp.provJoin"] = cfg.joinExpenseLines ? j * nz(y.provJoin) : 0;
+    const rentCount = cfg.rentIncludesJoiners ? m + j : m;
+    r[P+"rent.count"] = rentCount;
+    r[P+"rent.per"] = rentCount ? nz(y.rent) / rentCount : 0;
+    r[P+"exp.rent"] = nz(y.rent);
+    r[P+"exp.regWM"] = nz(y.regWM.qty) * nz(y.regWM.unit);
+    r[P+"exp.regIPWM"] = nz(y.regIPWM.qty) * nz(y.regIPWM.unit);
+    r[P+"exp.admin"] = nz(y.admin); r[P+"exp.various"] = nz(y.various);
+    const exp = ["gmc","gmcJoin","prov","provJoin","rent","regWM","regIPWM","admin","various"].reduce((a,f)=>a+r[P+"exp."+f],0);
+    r[P+"exp.total"] = exp;
+    r[P+"result"] = rev - exp;
+    r[P+"candidate"] = recT;
+  });
+  return r;
+}
+if (typeof module !== "undefined") module.exports = {defaults, compute};
+</script>
+
+<script>
+/* ===================== TRANSLATIONS ===================== */
+const T = {
+ el:{
+  sub:"Παρεκκλήσιο {c} · Προϋπολογισμός ίδρυσης και λειτουργίας",
+  excelMode:"Ακριβώς όπως το Excel",
+  tabs:["Σύνοψη","Εξοπλισμός","Καθαγιασμός","Προϋπολογισμός {y1}","Προϋπολογισμός {y2}"],
+  ov_title:"Σύνοψη", ov_lede:"Όλοι οι αριθμοί υπολογίζονται αυτόματα από τα φύλλα του Excel. Αλλάξτε οποιαδήποτε τιμή στις καρτέλες και όλα ενημερώνονται.",
+  t_inv:"Κόστος εξοπλισμού", t_cons:"Κόστος καθαγιασμού", t_per:"Ανά ιδρυτικό μέλος", t_y1:"Αποτέλεσμα {y}", t_cand:"Κόστος υποψηφίου {y}",
+  s_inv:"Αγορές {b} · Κατασκευή {m}", s_cons:"Πληρωτέο από το νέο Παρεκκλήσιο", s_per:"{n} αιτούντες", s_y:"Έσοδα {r} · Έξοδα {e}", s_cand:"Τέλος μύησης ανά υποψήφιο",
+  settings:"Γενικές ρυθμίσεις", chapel:"Όνομα Παρεκκλησίου", province:"Επαρχία", gbp:"Ισοτιμία: 1 £ = … €", year1:"Έτος 1", year2:"Έτος 2", linkFurn:"Το κόστος επίπλων στον καθαγιασμό = σύνολο εξοπλισμού",
+  diffs_title:"Διαφορές τύπων στο Excel", diffs_lede:"Βρέθηκαν σημεία όπου ο τύπος του Excel φαίνεται λανθασμένος. Με τον διακόπτη «Ακριβώς όπως το Excel» βλέπετε τους αριθμούς του αρχείου· χωρίς αυτόν, τους διορθωμένους. Τα επηρεαζόμενα κελιά έχουν σήμανση ⚠.",
+  d1:"<b>Καθαγιασμός, Προσκεκλημένοι στο συμπόσιο (G25):</b> ο τύπος πολλαπλασιάζει δύο φορές με τον αριθμό των καλεσμένων. Ανά αιτούντα: Excel {a}, σωστό {b}.",
+  d2:"<b>Προϋπολογισμός 1ου έτους, Συνδέσεις (F9):</b> δείχνει στο κενό κελί H37, άρα το έσοδο είναι 0. Πιθανότατα εννοείται το H36 (μερίδιο Παρεκκλησίου), όπως οι μυήσεις χρησιμοποιούν το D36. Έσοδο: Excel {a}, διορθωμένο {b}.",
+  d3:"<b>Προϋπολογισμός 2ου έτους, Σύνολο συνδέσεων (H33):</b> στο Excel είναι γραμμένο ως 60 αντί για άθροισμα. Τώρα συμπίπτει ({b}), αλλά δεν θα ενημερωθεί αν αλλάξουν τα μερίδια.",
+  data:"Αποθήκευση & δεδομένα", data_lede:"Οι αλλαγές αποθηκεύονται αυτόματα σε αυτόν τον browser. Για αντίγραφο ασφαλείας ή μεταφορά σε άλλη συσκευή, αντιγράψτε τα δεδομένα ή φορτώστε αρχείο.",
+  copy:"Αντιγραφή δεδομένων", download:"Λήψη αρχείου JSON", load:"Φόρτωση αρχείου", apply:"Εφαρμογή επικολλημένων", reset:"Επαναφορά τιμών Excel", reset_q:"Να σβηστούν όλες οι αλλαγές;", yes:"Ναι, επαναφορά", no:"Άκυρο",
+  copied:"Αντιγράφηκε.", loaded:"Τα δεδομένα φορτώθηκαν.", bad:"Το κείμενο δεν είναι έγκυρο αρχείο δεδομένων.", resetDone:"Επαναφέρθηκαν οι τιμές του Excel.", saved:"Αποθηκεύτηκε",
+  paste:"Επικολλήστε εδώ δεδομένα JSON",
+  inv_title:"Εξοπλισμός Παρεκκλησίου", inv_lede:"Ό,τι χρειάζεται για να στηθεί το Παρεκκλήσιο. Το κόστος αγοράς = ποσότητα × τιμή μονάδας· το σύνολο προστίθεται αυτόματα.",
+  c_item:"Είδος", c_qty:"Ποσ.", c_unit:"Τιμή μον. €", c_bought:"Αγορά €", c_made:"Κατασκευή €", c_by:"Παρέχεται από", c_note:"Παρατηρήσεις",
+  addRow:"Προσθήκη είδους", del:"Διαγραφή", totals:"Συνολικό κόστος",
+  cons_title:"Προϋπολογισμός καθαγιασμού", cons_lede:"Εφάπαξ κόστος ίδρυσης. Τα ποσά σε £ μετατρέπονται σε € με την ισοτιμία· το κόστος μοιράζεται στους αιτούντες.",
+  pet:"Αιτούντες (ιδρυτές)", c_cost:"Κόστος", c_cur:"Νόμ.", c_eur:"σε €", c_n:"Πλήθος", c_total:"Σύνολο €", c_per:"Ανά ιδρυτή €", linked:"= αιτούντες",
+  fees:"Εισφορές και τέλη", extras:"Εξοπλισμός, έντυπα και συμπόσιο", subtotal:"Μερικό σύνολο", grand:"Συνολικό κόστος",
+  payChapel:"Πληρωτέο από το νέο Παρεκκλήσιο", payEach:"Πληρωτέο από κάθε αιτούντα",
+  received:"Εισπράχθηκαν μέχρι τώρα €", reimburseTo:"Επιστροφή προς", reimburse:"Ποσό επιστροφής €", balance:"Υπόλοιπο προς είσπραξη",
+  incl:"Περιλαμβάνεται", notincl:"Δεν περιλαμβάνεται",
+  fee_gmc:"Συμβούλιο Μ. Διδασκάλου (GM's Council)", fee_prov:"Επαρχία {p}", fee_chapel:"Παρεκκλήσιο {c}", fee_feeGMC:"Τέλη καθαγιασμού GMC", fee_feeGPC:"Τέλη καθαγιασμού GPC",
+  x_furn:"Έπιπλα & εξοπλισμός", x_furn_n:"Σύμφωνα με τον συνημμένο κατάλογο", x_baton:"Ράβδος Άξιου Διδασκάλου", x_jewel:"Κόσμημα Τέως Διδασκάλου (PDMI)", x_rituals:"Τελετουργικά", x_rituals_n:"για τον νέο Άξιο Διδάσκαλο", x_const:"Σύνταγμα & Επετηρίδα", x_const_n:"για τον νέο Άξιο Διδάσκαλο", x_guests:"Προσκεκλημένοι στο συμπόσιο", x_guests_n:"τιμή ανά άτομο",
+  y_title:"Προϋπολογισμός & τιμολόγιο {y}", y_lede:"Ετήσια λειτουργία με βάση το τιμολόγιο {y}: έσοδα από συνδρομές, συνδέσεις και μυήσεις, έναντι εισφορών, ενοικίου και εξόδων.",
+  rev:"Έσοδα", exp:"Έξοδα", c_count:"Πλήθος", c_who:"Ποιοι", c_rate:"€ / άτομο", c_amt:"Ποσό €",
+  r_dues:"Ετήσιες συνδρομές", r_join_y1:"Συνδέσεις (affiliations)", r_join_y2:"Συνδέσεις – ιδρυτές JM", r_rec:"Μυήσεις (υποδοχές)",
+  w_members:"Πλήρη μέλη", w_joinY1:"Ιππότες", w_joinY2:"Ιδρυτές JM", w_rec:"Ιππότες",
+  e_gmc:"Εισφορές GM's Council", e_gmcJoin:"Εισφορές GMC – συνδεόμενα μέλη", e_prov:"Εισφορές Επαρχίας {p}", e_provJoin:"Εισφορές Επαρχίας – συνδεόμενα μέλη", e_rent:"Ενοίκιο", e_regWM:"Διακριτικά νέου Άξιου Διδασκάλου", e_regIPWM:"Διακριτικά νέου Αμέσως Τέως (IPWM)", e_admin:"Διοικητικά έξοδα", e_various:"Διάφορα έξοδα",
+  gmcFormula:"(βάση + προσαύξηση) × συντελεστής", rentNote:"σύνολο έτους · ανά άτομο", fixedAmt:"σταθερό ποσό",
+  result:"Αποτέλεσμα (διαθέσιμο υπόλοιπο)",
+  tar_rec:"Τιμολόγιο μύησης ανά υποψήφιο", tar_aff:"Τιμολόγιο σύνδεσης", tar_dues:"Ετήσιες συνδρομές {y}",
+  tr_gmc:"GM's Council", tr_prov:"Επαρχία {p}", tr_chapel:"Παρεκκλήσιο", tr_diploma:"Δίπλωμα", tr_kit:"Σετ υποψηφίου", tr_kit_n:"ταινία με μικρό όστρακο, μικρό & μεγάλο όστρακο, γραβάτα, καρφίτσα, σύνταγμα", tr_ritual:"Τελετουργικό", tr_constb:"Σύνταγμα / Επετηρίδα", tr_provBy:"Κανονισμός Επαρχίας", tr_chapBy:"Κανονισμός Παρεκκλησίου", tr_gloves:"Λευκά γάντια", tr_ship:"Έξοδα αποστολής", total:"Σύνολο",
+  d_fm:"Πλήρη μέλη (FM)", d_jm:"Συνδεόμενο μέλος (JM)", d_founder:"Ιδρυτικά μέλη (αν ο ιδρυτής είναι JM)",
+  flagTip:"Excel: {v}", flagCorr:"Διορθωμένο: {v}"
+ },
+ fr:{
+  sub:"Chapelle {c} · Budget de fondation et de fonctionnement",
+  excelMode:"Identique à Excel",
+  tabs:["Synthèse","Inventaire","Consécration","Budget {y1}","Budget {y2}"],
+  ov_title:"Synthèse", ov_lede:"Tous les chiffres sont calculés automatiquement selon les feuilles Excel. Modifiez une valeur dans un onglet et tout se met à jour.",
+  t_inv:"Coût de l'inventaire", t_cons:"Coût de la consécration", t_per:"Par fondateur", t_y1:"Résultat {y}", t_cand:"Coût candidat {y}",
+  s_inv:"Acheté {b} · Fabriqué {m}", s_cons:"À payer par la future Chapelle", s_per:"{n} pétitionnaires", s_y:"Recettes {r} · Dépenses {e}", s_cand:"Tarif de réception par candidat",
+  settings:"Paramètres généraux", chapel:"Nom de la Chapelle", province:"Province", gbp:"Taux : 1 £ = … €", year1:"Année 1", year2:"Année 2", linkFurn:"Mobilier de la consécration = total de l'inventaire",
+  diffs_title:"Écarts de formules dans Excel", diffs_lede:"Certaines formules Excel semblent erronées. Avec « Identique à Excel », vous voyez les chiffres du fichier ; sans, les chiffres corrigés. Les cellules concernées portent un ⚠.",
+  d1:"<b>Consécration, Invités au banquet (G25) :</b> la formule multiplie deux fois par le nombre d'invités. Par pétitionnaire : Excel {a}, correct {b}.",
+  d2:"<b>Budget 1re année, Affiliations (F9) :</b> renvoie à la cellule vide H37, donc recette nulle. Il s'agit probablement de H36 (part Chapelle), comme les réceptions utilisent D36. Recette : Excel {a}, corrigé {b}.",
+  d3:"<b>Budget 2e année, Total affiliations (H33) :</b> saisi en dur à 60 au lieu d'une somme. Identique aujourd'hui ({b}), mais ne suivra pas un changement des parts.",
+  data:"Sauvegarde et données", data_lede:"Les modifications sont enregistrées automatiquement dans ce navigateur. Pour une sauvegarde ou un autre appareil, copiez les données ou chargez un fichier.",
+  copy:"Copier les données", download:"Télécharger le JSON", load:"Charger un fichier", apply:"Appliquer le texte collé", reset:"Rétablir les valeurs Excel", reset_q:"Effacer toutes les modifications ?", yes:"Oui, rétablir", no:"Annuler",
+  copied:"Copié.", loaded:"Données chargées.", bad:"Ce texte n'est pas un fichier de données valide.", resetDone:"Valeurs Excel rétablies.", saved:"Enregistré",
+  paste:"Collez ici les données JSON",
+  inv_title:"Inventaire de la Chapelle", inv_lede:"Tout le nécessaire pour équiper la Chapelle. Coût d'achat = quantité × prix unitaire ; le total se calcule seul.",
+  c_item:"Article", c_qty:"Qté", c_unit:"Prix unit. €", c_bought:"Acheté €", c_made:"Fabriqué €", c_by:"Fourni par", c_note:"Observations",
+  addRow:"Ajouter un article", del:"Supprimer", totals:"Coût total",
+  cons_title:"Budget de consécration", cons_lede:"Coût unique de fondation. Les montants en £ sont convertis en € au taux indiqué ; le coût est réparti entre les pétitionnaires.",
+  pet:"Pétitionnaires (fondateurs)", c_cost:"Coût", c_cur:"Dev.", c_eur:"en €", c_n:"Nombre", c_total:"Total €", c_per:"Par fondat. €", linked:"= pétitionnaires",
+  fees:"Capitations et frais", extras:"Mobilier, documents et banquet", subtotal:"Sous-total", grand:"Coût total",
+  payChapel:"À payer par la future Chapelle", payEach:"À payer par chaque pétitionnaire",
+  received:"Reçu à ce jour €", reimburseTo:"À rembourser à", reimburse:"Montant à rembourser €", balance:"Reste à recevoir",
+  incl:"Inclus", notincl:"Non inclus",
+  fee_gmc:"GM's Council", fee_prov:"Province {p}", fee_chapel:"Chapelle {c}", fee_feeGMC:"Frais de consécration GMC", fee_feeGPC:"Frais de consécration GPC",
+  x_furn:"Mobiliers", x_furn_n:"Selon l'inventaire joint", x_baton:"Bâton du DM", x_jewel:"Bijou PDMI", x_rituals:"Rituels", x_rituals_n:"pour le nouveau DM", x_const:"Constitutions et annuaire", x_const_n:"pour le nouveau DM", x_guests:"Invités au banquet", x_guests_n:"prix par personne",
+  y_title:"Budget et tarifs {y}", y_lede:"Fonctionnement annuel sur la base du tarif {y} : cotisations, affiliations et réceptions face aux capitations, au loyer et aux frais.",
+  rev:"Recettes", exp:"Dépenses", c_count:"Nombre", c_who:"Qui", c_rate:"€ / pers.", c_amt:"Montant €",
+  r_dues:"Cotisations", r_join_y1:"Affiliations", r_join_y2:"Affiliations – fondateurs JM", r_rec:"Réceptions",
+  w_members:"Membres", w_joinY1:"Messires Chev.", w_joinY2:"Fondateurs JM", w_rec:"Messires Chev.",
+  e_gmc:"Capitation GM's Council", e_gmcJoin:"Capitation GMC – membres affiliés", e_prov:"Capitation Province {p}", e_provJoin:"Capitation Province – membres affiliés", e_rent:"Loyer", e_regWM:"Décors pour le nouveau DM", e_regIPWM:"Décors pour le nouvel IPWM", e_admin:"Dépenses administratives", e_various:"Dépenses diverses",
+  gmcFormula:"(base + supplément) × coefficient", rentNote:"total annuel · par personne", fixedAmt:"montant fixe",
+  result:"Résultat (solde disponible)",
+  tar_rec:"Tarif de réception par candidat", tar_aff:"Tarif d'affiliation", tar_dues:"Cotisations annuelles {y}",
+  tr_gmc:"GM's Council", tr_prov:"Province {p}", tr_chapel:"Chapelle", tr_diploma:"Diplôme", tr_kit:"Kit du candidat", tr_kit_n:"bande avec petite coquille, petite et grande coquille, cravate, pin, constitution", tr_ritual:"Rituel", tr_constb:"Const. / Annuaire", tr_provBy:"Règl. Provincial", tr_chapBy:"Règl. Chapelle", tr_gloves:"Gants blancs", tr_ship:"Frais de port", total:"Total",
+  d_fm:"Membres (FM)", d_jm:"Membre affilié (JM)", d_founder:"Membres fondateurs (si le fondateur est JM)",
+  flagTip:"Excel : {v}", flagCorr:"Corrigé : {v}"
+ },
+ en:{
+  sub:"Chapel of {c} · Foundation and running budget",
+  excelMode:"Match Excel exactly",
+  tabs:["Overview","Inventory","Consecration","Budget {y1}","Budget {y2}"],
+  ov_title:"Overview", ov_lede:"Every figure is calculated live from the Excel sheets. Change any value in a tab and everything updates.",
+  t_inv:"Inventory cost", t_cons:"Consecration cost", t_per:"Per founder", t_y1:"Result {y}", t_cand:"Candidate cost {y}",
+  s_inv:"Bought {b} · Made {m}", s_cons:"Payable by the new Chapel", s_per:"{n} petitioners", s_y:"Revenue {r} · Expenses {e}", s_cand:"Reception fee per candidate",
+  settings:"General settings", chapel:"Chapel name", province:"Province", gbp:"Rate: £1 = … €", year1:"Year 1", year2:"Year 2", linkFurn:"Consecration furniture = inventory total",
+  diffs_title:"Formula issues found in the Excel", diffs_lede:"Some Excel formulas look wrong. With “Match Excel exactly” on you see the file's figures; with it off, the corrected ones. Affected cells carry a ⚠.",
+  d1:"<b>Consecration, Guests at the banquet (G25):</b> the formula multiplies by the number of guests twice. Per petitioner: Excel {a}, correct {b}.",
+  d2:"<b>Year 1 budget, Affiliations (F9):</b> points to the empty cell H37, so the revenue is 0. It most likely means H36 (Chapel share), just as receptions use D36. Revenue: Excel {a}, corrected {b}.",
+  d3:"<b>Year 2 budget, Affiliation total (H33):</b> typed as 60 instead of a sum. It matches today ({b}) but won't follow changes to the shares.",
+  data:"Saving & data", data_lede:"Changes save automatically in this browser. To back up or move to another device, copy the data or load a file.",
+  copy:"Copy data", download:"Download JSON", load:"Load file", apply:"Apply pasted data", reset:"Restore Excel values", reset_q:"Discard all your changes?", yes:"Yes, restore", no:"Cancel",
+  copied:"Copied.", loaded:"Data loaded.", bad:"That text isn't a valid data file.", resetDone:"Excel values restored.", saved:"Saved",
+  paste:"Paste JSON data here",
+  inv_title:"Chapel inventory", inv_lede:"Everything needed to furnish the Chapel. Purchase cost = quantity × unit price; totals add up automatically.",
+  c_item:"Item", c_qty:"Qty", c_unit:"Unit €", c_bought:"Bought €", c_made:"Made €", c_by:"Provided by", c_note:"Notes",
+  addRow:"Add item", del:"Delete", totals:"Total cost",
+  cons_title:"Consecration budget", cons_lede:"One-off foundation cost. Amounts in £ convert to € at the set rate; the cost is shared among the petitioners.",
+  pet:"Petitioners (founders)", c_cost:"Cost", c_cur:"Cur.", c_eur:"in €", c_n:"Number", c_total:"Total €", c_per:"Per founder €", linked:"= petitioners",
+  fees:"Capitations and fees", extras:"Furniture, books and banquet", subtotal:"Subtotal", grand:"Total cost",
+  payChapel:"Payable by the new Chapel", payEach:"Payable by each petitioner",
+  received:"Received so far €", reimburseTo:"To be reimbursed to", reimburse:"Amount to reimburse €", balance:"Still to be received",
+  incl:"Included", notincl:"Not included",
+  fee_gmc:"GM's Council", fee_prov:"Province {p}", fee_chapel:"Chapel of {c}", fee_feeGMC:"Consecration fees GMC", fee_feeGPC:"Consecration fees GPC",
+  x_furn:"Furniture", x_furn_n:"As per attached schedule", x_baton:"WM's baton", x_jewel:"PWM jewel (PDMI)", x_rituals:"Rituals", x_rituals_n:"for the new WM", x_const:"Constitutions and Yearbook", x_const_n:"for the new WM", x_guests:"Guests at the banquet", x_guests_n:"price per head",
+  y_title:"Budget and tariffs {y}", y_lede:"Annual running on the {y} tariff: dues, joining fees and receptions against capitations, rent and expenses.",
+  rev:"Revenue", exp:"Expenses", c_count:"Number", c_who:"Who", c_rate:"€ / head", c_amt:"Amount €",
+  r_dues:"Dues", r_join_y1:"Affiliations", r_join_y2:"Joining – Founders JM", r_rec:"Receptions",
+  w_members:"Full members", w_joinY1:"Sir Knights", w_joinY2:"Founders JM", w_rec:"Sir Knights",
+  e_gmc:"GM's Council dues", e_gmcJoin:"GMC dues – joining members", e_prov:"Province {p} dues", e_provJoin:"Province dues – joining members", e_rent:"Rent", e_regWM:"Regalia for the new WM", e_regIPWM:"Regalia for the new IPWM", e_admin:"Administrative expenses", e_various:"Various expenses",
+  gmcFormula:"(base + supplement) × factor", rentNote:"annual total · per head", fixedAmt:"fixed amount",
+  result:"Result (available balance)",
+  tar_rec:"Reception tariff per candidate", tar_aff:"Affiliation tariff", tar_dues:"Annual dues {y}",
+  tr_gmc:"GM's Council", tr_prov:"Province {p}", tr_chapel:"Chapel", tr_diploma:"Certificate", tr_kit:"Candidate's kit", tr_kit_n:"sash with small shell, small and large shell, tie, pin, constitution", tr_ritual:"Ritual", tr_constb:"Const. / Yearbook", tr_provBy:"Provincial by-laws", tr_chapBy:"Chapel by-laws", tr_gloves:"White gloves", tr_ship:"Shipping", total:"Total",
+  d_fm:"Full members (FM)", d_jm:"Joining member (JM)", d_founder:"Founding members (if the founder is a JM)",
+  flagTip:"Excel: {v}", flagCorr:"Corrected: {v}"
+ }
+};
+const LOCALE = {el:"el-GR", fr:"fr-FR", en:"en-GB"};
+
+/* ===================== STATE ===================== */
+const KEY = "acon-athens-budget-v1";
+let S = defaults(), R = {}, ALT = {}, tab = 0;
+try { const raw = localStorage.getItem(KEY); if (raw){ const o = JSON.parse(raw); if (o && o.v === 1) S = merge(defaults(), o); } } catch(e){}
+try { const tb = parseInt(localStorage.getItem(KEY+"-tab"),10); if (tb>=0 && tb<5) tab = tb; } catch(e){}
+const h = location.hash.replace("#",""); if (/^[0-4]$/.test(h)) tab = +h;
+
+function merge(base, o){
+  if (Array.isArray(base)) return Array.isArray(o) ? o : base;
+  if (base && typeof base === "object"){
+    const out = {...base};
+    if (o && typeof o === "object") for (const k in o) out[k] = (k in base) ? merge(base[k], o[k]) : o[k];
+    return out;
+  }
+  return (o === undefined) ? base : o;
+}
+function save(){ try { localStorage.setItem(KEY, JSON.stringify(S)); } catch(e){} }
+const L = () => S.settings.lang;
+function t(k, vars){
+  let s = (T[L()] && T[L()][k]) ?? T.en[k] ?? k;
+  const v = Object.assign({c:S.settings.chapel, p:S.settings.province, y1:S.settings.year1, y2:S.settings.year2}, vars||{});
+  return typeof s === "string" ? s.replace(/\{(\w+)\}/g,(m,x)=> v[x] ?? m) : s;
+}
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function fmt(v, dec){
+  if (v == null || !isFinite(v)) return "—";
+  return new Intl.NumberFormat(LOCALE[L()], {minimumFractionDigits:dec??2, maximumFractionDigits:dec??2}).format(v);
+}
+const money = v => (v==null||!isFinite(v)) ? "—" : new Intl.NumberFormat(LOCALE[L()],{style:"currency",currency:"EUR"}).format(v);
+
+function getP(path){ return path.split(".").reduce((o,k)=> o==null?undefined:o[k], S); }
+function setP(path, val){
+  const ks = path.split("."); let o = S;
+  for (let i=0;i<ks.length-1;i++) o = o[ks[i]];
+  o[ks[ks.length-1]] = val;
+}
+
+/* ===================== UI HELPERS ===================== */
+const num = (path, cls) => { const v = getP(path); return `<input type="number" step="any" inputmode="decimal" id="f-${path.replace(/\./g,"-")}" data-p="${path}" data-t="num" value="${v==null?"":v}" class="${cls||""}" aria-label="${path}">`; };
+const txt = (path, cls, ph) => `<input type="text" id="f-${path.replace(/\./g,"-")}" data-p="${path}" data-t="text" value="${esc(getP(path))}" class="${cls||"txt"}" ${ph?`placeholder="${esc(ph)}"`:""}>`;
+const out = (k, kind) => `<span class="out" data-k="${k}" data-f="${kind||"eur"}"></span>`;
+const curSel = path => { const v=getP(path); return `<select id="f-${path.replace(/\./g,"-")}" data-p="${path}" data-t="text" style="width:auto"><option value="GBP" ${v==="GBP"?"selected":""}>£</option><option value="EUR" ${v==="EUR"?"selected":""}>€</option></select>`; };
+const inclSel = path => { const v=getP(path); return `<select id="f-${path.replace(/\./g,"-")}" data-p="${path}" data-t="text" style="width:auto"><option value="incl" ${v==="incl"?"selected":""}>${t("incl")}</option><option value="notincl" ${v==="notincl"?"selected":""}>${t("notincl")}</option></select>`; };
+
+/* ===================== TABS ===================== */
+function renderTabs(){
+  const names = t("tabs");
+  document.getElementById("tabs").innerHTML = names.map((n,i)=>`<button type="button" role="tab" aria-selected="${i===tab}" data-tab="${i}"><span class="num">${i===0?"◆":i}</span>${esc(n.replace(/\{(\w+)\}/g,(m,x)=>({y1:S.settings.year1,y2:S.settings.year2})[x]))}</button>`).join("");
+}
+
+function vOverview(){
+  return `
+  <section>
+    <div class="eyebrow">${esc(t("sub"))}</div>
+    <h2>${t("ov_title")}</h2>
+    <p class="lede">${t("ov_lede")}</p>
+  </section>
+  <div class="tiles">
+    <div class="tile go" data-go="1"><span class="k">${t("t_inv")}</span><span class="v" data-k="inv.total" data-f="money"></span><span class="s" data-tpl="s_inv"></span></div>
+    <div class="tile go" data-go="2"><span class="k">${t("t_cons")}</span><span class="v" data-k="cons.total" data-f="money"></span><span class="s">${t("s_cons")}</span></div>
+    <div class="tile go" data-go="2"><span class="k">${t("t_per")}</span><span class="v" data-k="cons.per" data-f="money"></span><span class="s">${t("s_per",{n:S.cons.pet})}</span></div>
+    <div class="tile go" data-go="3"><span class="k">${t("t_y1",{y:S.settings.year1})}</span><span class="v" data-k="y1.result" data-f="money"></span><span class="s" data-tpl="s_y1"></span></div>
+    <div class="tile go" data-go="4"><span class="k">${t("t_y1",{y:S.settings.year2})}</span><span class="v" data-k="y2.result" data-f="money"></span><span class="s" data-tpl="s_y2"></span></div>
+    <div class="tile go" data-go="3"><span class="k">${t("t_cand",{y:S.settings.year1})}</span><span class="v" data-k="y1.candidate" data-f="money"></span><span class="s">${t("s_cand")}</span></div>
+  </div>
+  <div class="callout" id="diffs"></div>
+  <section class="sheet">
+    <h3>${t("settings")}</h3>
+    <div class="form">
+      <label>${t("chapel")}${txt("settings.chapel","txt")}</label>
+      <label>${t("province")}${txt("settings.province","txt")}</label>
+      <label>${t("gbp")}${num("settings.gbp")}</label>
+      <label>${t("pet")}${num("cons.pet")}</label>
+      <label>${t("year1")}${num("settings.year1")}</label>
+      <label>${t("year2")}${num("settings.year2")}</label>
+    </div>
+    <label class="toggle" style="margin-top:14px"><input type="checkbox" id="f-linkFurniture" data-p="settings.linkFurniture" data-t="bool" ${S.settings.linkFurniture?"checked":""}>${t("linkFurn")}</label>
+  </section>
+  <section class="sheet">
+    <h3>${t("data")}</h3>
+    <p class="note" style="margin-top:0">${t("data_lede")}</p>
+    <div class="btns">
+      <button class="btn primary" type="button" id="bCopy">${t("copy")}</button>
+      <button class="btn" type="button" id="bDl" ${window.self !== window.top ? "hidden" : ""}>${t("download")}</button>
+      <label class="btn" for="fileIn">${t("load")}</label><input type="file" id="fileIn" accept=".json,application/json" hidden>
+      <span id="resetBox"><button class="btn danger" type="button" id="bReset">${t("reset")}</button></span>
+    </div>
+    <textarea id="jsonBox" placeholder="${esc(t("paste"))}" style="margin-top:12px"></textarea>
+    <div class="btns" style="margin-top:8px"><button class="btn" type="button" id="bApply">${t("apply")}</button><span class="status" id="status" role="status"></span></div>
+  </section>`;
+}
+
+function vInventory(){
+  const nm = L();
+  const rows = S.inv.map((it,i)=>`
+    <tr>
+      <td class="idx">${esc(it.n)}</td>
+      <td class="lbl">${txt(`inv.${i}.${nm}`,"name")}</td>
+      <td class="r">${num(`inv.${i}.qty`,"w-s")}</td>
+      <td class="r">${num(`inv.${i}.unit`)}</td>
+      <td class="r calc">${out(`inv.${i}.bought`)}</td>
+      <td class="r">${num(`inv.${i}.made`)}</td>
+      <td>${txt(`inv.${i}.by`)}</td>
+      <td>${txt(`inv.${i}.note`)}</td>
+      <td><button class="btn icon" type="button" data-del="${i}" aria-label="${t("del")}" title="${t("del")}">×</button></td>
+    </tr>`).join("");
+  return `
+  <section class="sheet">
+    <div class="sheet-head"><div><div class="eyebrow">Inventory</div><h2>${t("inv_title")}</h2><p class="lede">${t("inv_lede")}</p></div>
+      <button class="btn" type="button" id="bAdd">+ ${t("addRow")}</button></div>
+    <div class="scroll"><table>
+      <thead><tr><th>#</th><th>${t("c_item")}</th><th class="r">${t("c_qty")}</th><th class="r">${t("c_unit")}</th><th class="r">${t("c_bought")}</th><th class="r">${t("c_made")}</th><th>${t("c_by")}</th><th>${t("c_note")}</th><th></th></tr></thead>
+      <tbody>${rows}</tbody>
+      <tfoot><tr class="sum"><td></td><td>${t("totals")}</td><td></td><td></td><td class="r">${out("inv.bought")}</td><td class="r">${out("inv.made")}</td><td colspan="3" class="r"><span class="out" data-k="inv.total" data-f="money"></span></td></tr></tfoot>
+    </table></div>
+  </section>`;
+}
+
+function vConsecration(){
+  const c = S.cons;
+  const feeRows = c.fees.map((f,i)=>`
+    <tr><td class="lbl">${esc(t("fee_"+f.key))}</td>
+      <td class="r">${num(`cons.fees.${i}.unit`)}</td><td>${curSel(`cons.fees.${i}.cur`)}</td>
+      <td class="r calc">${out(`cons.fee.${i}.eur`)}</td>
+      <td class="r">${f.link ? `${out(`cons.fee.${i}.qty`,"int")} <span class="note">${t("linked")}</span>` : num(`cons.fees.${i}.qty`,"w-s")}</td>
+      <td class="r calc">${out(`cons.fee.${i}.total`)}</td><td class="r calc">${out(`cons.fee.${i}.per`)}</td></tr>`).join("");
+  const xRows = c.extras.map((x,i)=>{
+    const linkedFurn = x.key==="furn" && S.settings.linkFurniture;
+    const note = T[L()]["x_"+x.key+"_n"] ? `<div class="note">${esc(t("x_"+x.key+"_n"))}</div>` : "";
+    return `
+    <tr><td class="lbl">${esc(t("x_"+x.key))}${note}</td>
+      <td class="r">${x.incl ? `<span class="chip">${t("incl")}</span>` : linkedFurn ? `<span class="chip">${t("t_inv")}</span>` : num(`cons.extras.${i}.unit`)}</td>
+      <td>${x.incl||linkedFurn ? "" : curSel(`cons.extras.${i}.cur`)}</td>
+      <td class="r calc">${x.incl ? "" : out(`cons.x.${i}.eur`)}</td>
+      <td class="r">${num(`cons.extras.${i}.qty`,"w-s")}</td>
+      <td class="r calc">${x.incl ? "" : out(`cons.x.${i}.total`)}</td><td class="r calc">${x.incl ? "" : out(`cons.x.${i}.per`)}</td></tr>`;}).join("");
+  const head = `<thead><tr><th>&nbsp;</th><th class="r">${t("c_cost")}</th><th>${t("c_cur")}</th><th class="r">${t("c_eur")}</th><th class="r">${t("c_n")}</th><th class="r">${t("c_total")}</th><th class="r">${t("c_per")}</th></tr></thead>`;
+  return `
+  <section class="sheet">
+    <div class="sheet-head"><div><div class="eyebrow">Consecration Budget</div><h2>${t("cons_title")} · ${esc(t("fee_chapel"))}</h2><p class="lede">${t("cons_lede")}</p></div>
+      <div class="form" style="min-width:min(100%,320px)"><label>${t("pet")}${num("cons.pet")}</label><label>${t("gbp")}${num("settings.gbp")}</label></div></div>
+    <div class="scroll"><table>
+      ${head}
+      <tbody>
+        <tr class="sub"><td colspan="7">${t("fees")}</td></tr>
+        ${feeRows}
+        <tr class="sum"><td>${t("subtotal")}</td><td></td><td></td><td></td><td></td><td class="r">${out("cons.fees.total")}</td><td class="r">${out("cons.fees.per")}</td></tr>
+        <tr class="sub"><td colspan="7">${t("extras")}</td></tr>
+        ${xRows}
+        <tr class="sum"><td>${t("grand")}</td><td></td><td></td><td></td><td></td><td class="r">${out("cons.total")}</td><td class="r">${out("cons.per")}</td></tr>
+      </tbody>
+    </table></div>
+    <div class="grid2" style="margin-top:16px">
+      <div class="result pos"><span>${t("payChapel")}</span><span class="big" data-k="cons.total" data-f="money"></span></div>
+      <div class="result pos"><span>${t("payEach")}</span><span class="big" data-k="cons.per" data-f="money"></span></div>
+    </div>
+    <div class="form" style="margin-top:16px">
+      <label>${t("received")}${num("cons.received")}</label>
+      <label>${t("reimburseTo")}${txt("cons.reimburseTo","txt")}</label>
+      <label>${t("reimburse")}${num("cons.reimburse")}</label>
+      <label>${t("balance")}<span class="out" style="font-size:1.1rem;padding-top:4px" data-k="cons.balanceDue" data-f="money"></span></label>
+    </div>
+  </section>`;
+}
+
+function vYear(k){
+  const y = S[k], cfg = YEAR_CFG[k], yr = k==="y1" ? S.settings.year1 : S.settings.year2, P = k+".";
+  const rRow = (label, cnt, who, rateKey, amtKey) => `<tr><td class="lbl">${label}</td><td class="r">${cnt}</td><td class="note">${who}</td><td class="r calc">${out(rateKey)}</td><td class="r calc">${out(amtKey)}</td></tr>`;
+  const eRow = (label, cnt, who, rate, amtKey) => `<tr><td class="lbl">${label}</td><td class="r">${cnt}</td><td class="note">${who}</td><td class="r">${rate}</td><td class="r calc">${out(amtKey)}</td></tr>`;
+  const joinLines = cfg.joinExpenseLines ? `
+      ${eRow(t("e_gmcJoin"), out(P+"jcount","int"), t("w_joinY2"), num(P+"gmcJoin"), P+"exp.gmcJoin")}` : "";
+  const provJoin = cfg.joinExpenseLines ? eRow(t("e_provJoin"), out(P+"jcount","int"), t("w_joinY2"), num(P+"provJoin"), P+"exp.provJoin") : "";
+  const tr = y.tariffs;
+  const recItem = (f, isIncl) => `<dt>${esc(t("tr_"+f))}${f==="kit"?`<div class="note">${esc(t("tr_kit_n"))}</div>`:""}</dt><dd>${isIncl ? inclSel(`${k}.tariffs.rec.${f}`) : num(`${k}.tariffs.rec.${f}`)}</dd>`;
+  return `
+  <section class="sheet">
+    <div class="sheet-head"><div><div class="eyebrow">${k==="y1"?"Budget 1er Année":"Budget 2ème Année"}</div><h2>${t("y_title",{y:yr})}</h2><p class="lede">${t("y_lede",{y:yr})}</p></div></div>
+    <div class="scroll"><table>
+      <thead><tr><th>${t("rev")}</th><th class="r">${t("c_count")}</th><th>${t("c_who")}</th><th class="r">${t("c_rate")}</th><th class="r">${t("c_amt")}</th></tr></thead>
+      <tbody>
+        ${rRow(t("r_dues"), num(P+"members","w-s"), t("w_members"), P+"rate.dues", P+"rev.dues")}
+        ${rRow(t(k==="y1"?"r_join_y1":"r_join_y2"), num(P+"joiners","w-s"), t(k==="y1"?"w_joinY1":"w_joinY2"), P+"rate.join", P+"rev.join")}
+        ${rRow(t("r_rec"), num(P+"receptions","w-s"), t("w_rec"), P+"rate.rec", P+"rev.rec")}
+        <tr class="sum"><td>${t("total")}</td><td></td><td></td><td></td><td class="r">${out(P+"rev.total")}</td></tr>
+      </tbody>
+    </table></div>
+    <div class="scroll" style="margin-top:18px"><table>
+      <thead><tr><th>${t("exp")}</th><th class="r">${t("c_count")}</th><th>${t("c_who")}</th><th class="r">${t("c_rate")}</th><th class="r">${t("c_amt")}</th></tr></thead>
+      <tbody>
+        <tr><td class="lbl">${t("e_gmc")}<div class="note">${t("gmcFormula")}</div></td><td class="r">${out(P+"mcount","int")}</td><td class="note">${t("w_members")}</td>
+          <td class="r"><div class="btns" style="justify-content:flex-end;flex-wrap:nowrap">(${num(P+"gmc.base","w-s")} + ${num(P+"gmc.extra","w-s")}) × ${num(P+"gmc.factor","w-s")}</div><div class="calc" style="margin-top:4px">= ${out(P+"rate.gmc")}</div></td>
+          <td class="r calc">${out(P+"exp.gmc")}</td></tr>
+        ${joinLines}
+        ${eRow(t("e_prov"), out(P+"mcount","int"), t("w_members"), num(P+"prov"), P+"exp.prov")}
+        ${provJoin}
+        <tr><td class="lbl">${t("e_rent")}<div class="note">${t("rentNote")}</div></td><td class="r">${out(P+"rent.count","int")}</td><td class="note">${t("w_rec")}</td><td class="r">${num(P+"rent")}<div class="calc note">${out(P+"rent.per")} / pp</div></td><td class="r calc">${out(P+"exp.rent")}</td></tr>
+        ${eRow(t("e_regWM"), num(P+"regWM.qty","w-s"), "", num(P+"regWM.unit"), P+"exp.regWM")}
+        ${eRow(t("e_regIPWM"), num(P+"regIPWM.qty","w-s"), "", num(P+"regIPWM.unit"), P+"exp.regIPWM")}
+        ${eRow(t("e_admin"), "", t("fixedAmt"), num(P+"admin"), P+"exp.admin")}
+        ${eRow(t("e_various"), "", t("fixedAmt"), num(P+"various"), P+"exp.various")}
+        <tr class="sum"><td>${t("total")}</td><td></td><td></td><td></td><td class="r">${out(P+"exp.total")}</td></tr>
+      </tbody>
+    </table></div>
+    <div class="result" data-sign="${P}result"><span>${t("result")}</span><span class="big" data-k="${P}result" data-f="money"></span></div>
+  </section>
+  <div class="grid2">
+    <section class="sheet">
+      <h3>${t("tar_rec")}</h3>
+      <dl class="tariff">
+        ${recItem("gmc")}${recItem("prov")}${recItem("chapel")}${recItem("diploma",true)}${recItem("kit")}${recItem("ritual")}${recItem("constb",true)}${recItem("provBy",true)}${recItem("chapBy",true)}${recItem("gloves",true)}${recItem("ship")}
+        <dt class="tot">${t("total")}</dt><dd class="tot">${out(P+"rec.total","money")}</dd>
+      </dl>
+    </section>
+    <div style="display:grid;gap:22px;align-content:start">
+      <section class="sheet">
+        <h3>${t("tar_aff")}</h3>
+        <dl class="tariff">
+          <dt>${esc(t("tr_gmc"))}</dt><dd>${num(`${k}.tariffs.aff.gmc`)}</dd>
+          <dt>${esc(t("tr_prov"))}</dt><dd>${num(`${k}.tariffs.aff.prov`)}</dd>
+          <dt>${esc(t("tr_chapel"))}</dt><dd>${num(`${k}.tariffs.aff.chapel`)}</dd>
+          <dt class="tot">${t("total")}</dt><dd class="tot">${out(P+"aff.total","money")}</dd>
+        </dl>
+      </section>
+      <section class="sheet">
+        <h3>${t("tar_dues",{y:yr})}</h3>
+        <dl class="tariff">
+          <dt>${t("d_fm")}</dt><dd>${num(`${k}.tariffs.dues.fm`)}</dd>
+          <dt>${t("d_jm")}</dt><dd>${num(`${k}.tariffs.dues.jm`)}</dd>
+          <dt>${t("d_founder")}</dt><dd>${num(`${k}.tariffs.dues.founder`)}</dd>
+        </dl>
+      </section>
+    </div>
+  </div>`;
+}
+
+/* ===================== RENDER + RECALC ===================== */
+function render(){
+  document.documentElement.lang = L();
+  document.querySelectorAll("#langSeg button").forEach(b=> b.setAttribute("aria-pressed", b.dataset.lang===L()));
+  document.getElementById("excelMode").checked = !!S.settings.excelMode;
+  document.getElementById("excelModeLbl").textContent = t("excelMode");
+  document.getElementById("appSub").textContent = t("sub");
+  renderTabs();
+  const v = [vOverview, vInventory, vConsecration, ()=>vYear("y1"), ()=>vYear("y2")][tab]();
+  document.getElementById("main").innerHTML = v;
+  wire();
+  recalc();
+}
+
+function recalc(){
+  R = compute(S, !!S.settings.excelMode);
+  ALT = compute(S, !S.settings.excelMode);
+  ["y1","y2"].forEach(k=>{ R[k+".mcount"] = S[k].members; R[k+".jcount"] = S[k].joiners; ALT[k+".mcount"]=R[k+".mcount"]; ALT[k+".jcount"]=R[k+".jcount"]; });
+  R["cons.balanceDue"] = R["cons.total"] - (Number(S.cons.received)||0); ALT["cons.balanceDue"] = ALT["cons.total"] - (Number(S.cons.received)||0);
+  document.querySelectorAll("[data-k]").forEach(el=>{
+    const k = el.dataset.k, f = el.dataset.f, v = R[k], a = ALT[k];
+    const show = x => f==="int" ? fmt(x,0) : f==="money" ? money(x) : fmt(x);
+    el.textContent = show(v);
+    if (v != null && a != null && Math.abs(v - a) > 1e-9){
+      const fl = document.createElement("span");
+      fl.className = "flag"; fl.textContent = "⚠";
+      fl.title = S.settings.excelMode ? t("flagCorr",{v:show(a)}) : t("flagTip",{v:show(a)});
+      el.appendChild(fl);
+    }
+  });
+  document.querySelectorAll("[data-sign]").forEach(el=>{ const v = R[el.dataset.sign]; el.classList.toggle("pos", v>=0); el.classList.toggle("neg", v<0); });
+  const tpl = {
+    s_inv: ()=> t("s_inv",{b:money(R["inv.bought"]), m:money(R["inv.made"])}),
+    s_y1: ()=> t("s_y",{r:money(R["y1.rev.total"]), e:money(R["y1.exp.total"])}),
+    s_y2: ()=> t("s_y",{r:money(R["y2.rev.total"]), e:money(R["y2.exp.total"])})
+  };
+  document.querySelectorAll("[data-tpl]").forEach(el=> el.textContent = tpl[el.dataset.tpl]());
+  const d = document.getElementById("diffs");
+  if (d){
+    const ex = compute(S,true), co = compute(S,false);
+    const gi = S.cons.extras.findIndex(x=>x.key==="guests");
+    d.innerHTML = `<h3 style="margin-bottom:4px">${t("diffs_title")}</h3><p class="note" style="margin:0">${t("diffs_lede")}</p><ul>
+      <li>${t("d1",{a:money(ex[`cons.x.${gi}.per`]), b:money(co[`cons.x.${gi}.per`])})}</li>
+      <li>${t("d2",{a:money(ex["y1.rev.join"]), b:money(co["y1.rev.join"])})}</li>
+      <li>${t("d3",{b:money(co["y2.aff.total"])})}</li></ul>`;
+  }
+}
+
+let saveTimer;
+function onEdit(e){
+  const el = e.target, p = el.dataset.p; if (!p) return;
+  let v;
+  if (el.dataset.t === "num"){ const s = el.value.trim().replace(",","."); v = s === "" ? null : parseFloat(s); if (s !== "" && !isFinite(v)) return; }
+  else if (el.dataset.t === "bool") v = el.checked;
+  else v = el.value;
+  setP(p, v);
+  clearTimeout(saveTimer); saveTimer = setTimeout(save, 250);
+  const structural = /^settings\.(chapel|province|year1|year2|linkFurniture)$|^cons\.pet$/.test(p) || el.tagName === "SELECT";
+  if (structural && (e.type === "change")) { save(); render(); } else recalc();
+}
+
+function status(msg){ const s = document.getElementById("status"); if (s){ s.textContent = msg; setTimeout(()=>{ if(s.textContent===msg) s.textContent=""; }, 3500); } }
+
+function wire(){
+  const m = document.getElementById("main");
+  m.querySelectorAll("[data-p]").forEach(el=>{ el.addEventListener("input", onEdit); el.addEventListener("change", onEdit); });
+  m.querySelectorAll("[data-go]").forEach(el=> el.addEventListener("click", ()=> go(+el.dataset.go)));
+  m.querySelectorAll("[data-del]").forEach(el=> el.addEventListener("click", ()=>{ S.inv.splice(+el.dataset.del,1); save(); render(); }));
+  const add = document.getElementById("bAdd");
+  if (add) add.addEventListener("click", ()=>{ const nums = S.inv.map(x=>parseInt(x.n,10)).filter(n=>!isNaN(n)); S.inv.push({n:String((nums.length?Math.max(...nums):0)+1), en:"", fr:"", el:"", qty:null, unit:null, made:null, by:"", note:""}); save(); render(); });
+  const bc = document.getElementById("bCopy");
+  if (bc){
+    const box = document.getElementById("jsonBox");
+    bc.addEventListener("click", ()=>{ const j = JSON.stringify(S,null,1); box.value = j;
+      try { navigator.clipboard.writeText(j).then(()=>status(t("copied")), ()=>{ box.select(); }); } catch(e){ box.select(); } });
+    document.getElementById("bDl").addEventListener("click", ()=>{
+      const j = JSON.stringify(S,null,1); box.value = j;
+      try { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([j],{type:"application/json"}));
+        const d = new Date(), p2 = n=>String(n).padStart(2,"0");
+        a.download = `Chap_${(S.settings.chapel||"Chapel").replace(/\W+/g,"_")}_Budget_${p2(d.getDate())}${p2(d.getMonth()+1)}${String(d.getFullYear()).slice(2)}_v1.json`;
+        document.body.appendChild(a); a.click(); a.remove(); } catch(e){}
+    });
+    document.getElementById("fileIn").addEventListener("change", ev=>{
+      const f = ev.target.files[0]; if (!f) return; const rd = new FileReader();
+      rd.onload = ()=> loadJSON(rd.result); rd.readAsText(f);
+    });
+    document.getElementById("bApply").addEventListener("click", ()=> loadJSON(box.value));
+    document.getElementById("bReset").addEventListener("click", ()=>{
+      const rb = document.getElementById("resetBox");
+      rb.innerHTML = `<span class="note">${t("reset_q")}</span> <button class="btn danger" type="button" id="bYes">${t("yes")}</button> <button class="btn" type="button" id="bNo">${t("no")}</button>`;
+      document.getElementById("bYes").onclick = ()=>{ const lang = L(); S = defaults(); S.settings.lang = lang; save(); render(); status(t("resetDone")); };
+      document.getElementById("bNo").onclick = ()=> render();
+    });
+  }
+}
+function loadJSON(txt){
+  try { const o = JSON.parse(txt); if (!o || o.v !== 1 || !o.cons || !o.y1) throw 0; S = merge(defaults(), o); save(); render(); status(t("loaded")); }
+  catch(e){ status(t("bad")); }
+}
+function go(i){ tab = i; try{ localStorage.setItem(KEY+"-tab", i); }catch(e){} render(); window.scrollTo({top:0}); }
+
+document.getElementById("tabs").addEventListener("click", e=>{ const b = e.target.closest("[data-tab]"); if (b) go(+b.dataset.tab); });
+document.getElementById("langSeg").addEventListener("click", e=>{ const b = e.target.closest("[data-lang]"); if (!b) return; S.settings.lang = b.dataset.lang; save(); render(); });
+document.getElementById("excelMode").addEventListener("change", e=>{ S.settings.excelMode = e.target.checked; save(); render(); });
+render();
+</script>
